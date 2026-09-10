@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'screens/login_screen.dart';
+import 'theme/app_theme.dart';
 
 void main() {
   runApp(const AldujaApp());
@@ -12,15 +14,8 @@ class AldujaApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'الدجى',
-      theme: ThemeData.dark(),
-      home: const Scaffold(
-        body: Center(
-          child: Text(
-            'الدجى',
-            style: TextStyle(fontSize: 40),
-          ),
-        ),
-      ),
+      theme: AldujaTheme.dark(),
+      home: const LoginScreen(),
     );
   }
 }
