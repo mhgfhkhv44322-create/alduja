@@ -1,109 +1,325 @@
 import 'package:flutter/material.dart';
+import 'cities_screen.dart';
 import 'lore_screen.dart';
-import '../models/city.dart';
-import '../services/city_service.dart';
 
-class WorldScreen extends StatefulWidget {
+class WorldScreen extends StatelessWidget {
   const WorldScreen({super.key});
 
-  @override
-  State<WorldScreen> createState() => _WorldScreenState();
-}
-
-class _WorldScreenState extends State<WorldScreen> {
-  late Future<List<City>> citiesFuture;
+  static const gold = Color(0xFFE3C477);
+  static const bg = Color(0xFF050912);
+  static const panel = Color(0xFF0D1420);
 
   @override
-  void initState() {
-    super.initState();
-    citiesFuture = CityService().getCities();
-  }
-
-  Future<void> refreshWorld() async {
-    setState(() {
-      citiesFuture = CityService().getCities();
-    });
-    await citiesFuture;
-  }
-
-  @override
-  void _openLore() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const LoreScreen()),
-    );
-  }
-
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xFFE5C77A),
-        foregroundColor: const Color(0xFF070B14),
-        onPressed: _openLore,
-        child: const Icon(Icons.auto_awesome_outlined),
-      ),
-      appBar: AppBar(
-        title: const Text('عالم الدجى'),
-      ),
-      body: FutureBuilder<List<City>>(
-        future: citiesFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                'حدث خطأ: ${snapshot.error}',
-                textAlign: TextAlign.center,
+      backgroundColor: bg,
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    const Color(0xFF101827),
+                    bg,
+                    const Color(0xFF03060C),
+                  ],
+                ),
               ),
-            );
-          }
+            ),
+          ),
 
-          final cities = snapshot.data ?? [];
-
-          if (cities.isEmpty) {
-            return const Center(
-              child: Text(
-                'العالم بعده مخفي...\nابدأ باكتشاف الحكايات.',
-                textAlign: TextAlign.center,
+          Positioned(
+            top: -90,
+            right: -50,
+            child: Container(
+              width: 230,
+              height: 230,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: gold.withOpacity(.055),
               ),
-            );
-          }
+            ),
+          ),
 
-          return RefreshIndicator(
-            onRefresh: refreshWorld,
-            child: ListView.separated(
-              padding: const EdgeInsets.all(16),
-              itemCount: cities.length,
-              separatorBuilder: (_, __) =>
-                  const SizedBox(height: 12),
-              itemBuilder: (context, index) {
-                final city = cities[index];
-
-                return Card(
-                  child: ListTile(
-                    leading: const CircleAvatar(
-                      child: Icon(
-                        Icons.location_city_outlined,
+          SafeArea(
+            child: ListView(
+              padding: const EdgeInsets.fromLTRB(22, 20, 22, 40),
+              children: [
+                Row(
+                  textDirection: TextDirection.rtl,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const LoreScreen(),
+                          ),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.auto_awesome_outlined,
+                        color: gold,
                       ),
                     ),
-                    title: Text(city.name),
-                    subtitle: Text(
-                      city.description ?? 'مدينة من عالم الدجى',
+                    const Spacer(),
+                    const Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          'الدجى',
+                          textDirection: TextDirection.rtl,
+                          style: TextStyle(
+                            color: gold,
+                            fontSize: 28,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          'العالم',
+                          textDirection: TextDirection.rtl,
+                          style: TextStyle(
+                            color: Colors.white54,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
                     ),
-                    trailing: const Icon(
-                      Icons.chevron_left,
+                  ],
+                ),
+
+                const SizedBox(height: 28),
+
+                Container(
+                  height: 250,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    border: Border.all(
+                      color: gold.withOpacity(.16),
+                    ),
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        const Color(0xFF182337),
+                        panel,
+                      ],
                     ),
                   ),
-                );
-              },
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 28,
+                        left: 30,
+                        child: Icon(
+                          Icons.nightlight_round,
+                          size: 48,
+                          color: gold.withOpacity(.8),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 34,
+                        left: 24,
+                        right: 24,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: 65,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50),
+                                  color: Colors.black.withOpacity(.18),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Container(
+                              width: 55,
+                              height: 105,
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.vertical(
+                                  top: Radius.circular(8),
+                                ),
+                                color: Colors.black.withOpacity(.28),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Container(
+                              width: 90,
+                              height: 72,
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.vertical(
+                                  top: Radius.circular(45),
+                                ),
+                                color: Colors.black.withOpacity(.32),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Positioned(
+                        right: 22,
+                        bottom: 22,
+                        child: Text(
+                          'أماكن لم تُكتشف بعد',
+                          textDirection: TextDirection.rtl,
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 24),
+
+                const Text(
+                  'العالم لا يكشف نفسه دفعة واحدة.',
+                  textDirection: TextDirection.rtl,
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 19,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+
+                const SizedBox(height: 7),
+
+                Text(
+                  'كل طريق يقود إلى حكاية، وبعض الحكايات لا تبدأ إلا بعد أن تبحث عنها.',
+                  textDirection: TextDirection.rtl,
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(.48),
+                    height: 1.7,
+                    fontSize: 14,
+                  ),
+                ),
+
+                const SizedBox(height: 22),
+
+                _WorldButton(
+                  icon: Icons.location_city_outlined,
+                  title: 'المدن',
+                  subtitle: 'اكتشف الأماكن التي ظهرت لك',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const CitiesScreen(),
+                      ),
+                    );
+                  },
+                ),
+
+                const SizedBox(height: 12),
+
+                _WorldButton(
+                  icon: Icons.auto_awesome_outlined,
+                  title: 'أصداء العالم',
+                  subtitle: 'آثار وحكايات ظهرت من رحلتك',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const LoreScreen(),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
-          );
-        },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _WorldButton extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
+
+  const _WorldButton({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(22),
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.all(18),
+          decoration: BoxDecoration(
+            color: const Color(0xFF0D1420),
+            borderRadius: BorderRadius.circular(22),
+            border: Border.all(
+              color: const Color(0xFFE3C477).withOpacity(.12),
+            ),
+          ),
+          child: Row(
+            textDirection: TextDirection.rtl,
+            children: [
+              const Icon(
+                Icons.chevron_left_rounded,
+                color: Colors.white38,
+              ),
+              const Spacer(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    title,
+                    textDirection: TextDirection.rtl,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    subtitle,
+                    textDirection: TextDirection.rtl,
+                    style: const TextStyle(
+                      color: Colors.white38,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(width: 15),
+              Container(
+                width: 46,
+                height: 46,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: const Color(0xFFE3C477).withOpacity(.08),
+                ),
+                child: Icon(
+                  icon,
+                  color: const Color(0xFFE3C477),
+                  size: 22,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
