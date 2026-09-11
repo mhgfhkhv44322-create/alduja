@@ -36,7 +36,7 @@ class LoreKnowledge {
       isPublic: map['is_public'] as bool? ?? false,
       createdAt: map['created_at'] == null
           ? null
-          : DateTime.tryParse(map['created_at'].toString()),
+          : DateTime.parse(map['created_at'] as String),
     );
   }
 }
