@@ -8,7 +8,6 @@ class LoreKnowledge {
   final String? sourceName;
   final int difficulty;
   final bool isPublic;
-  final DateTime? createdAt;
 
   const LoreKnowledge({
     required this.id,
@@ -20,7 +19,6 @@ class LoreKnowledge {
     this.sourceName,
     required this.difficulty,
     required this.isPublic,
-    this.createdAt,
   });
 
   factory LoreKnowledge.fromMap(Map<String, dynamic> map) {
@@ -34,9 +32,6 @@ class LoreKnowledge {
       sourceName: map['source_name'] as String?,
       difficulty: (map['difficulty'] as num?)?.toInt() ?? 1,
       isPublic: map['is_public'] as bool? ?? false,
-      createdAt: map['created_at'] == null
-          ? null
-          : DateTime.parse(map['created_at'] as String),
     );
   }
 }
