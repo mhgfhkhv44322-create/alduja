@@ -11,48 +11,51 @@ class CitiesScreen extends StatefulWidget {
 }
 
 class _CitiesScreenState extends State<CitiesScreen> {
-  late Future<List<City>> citiesFuture;
+  late Future<List<City>> _future;
 
   @override
   void initState() {
     super.initState();
-    citiesFuture = CityService().getCities();
+    _future = CityService().getCities();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF050912),
+      backgroundColor: const Color(0xFF07090E),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF050912),
+        backgroundColor: const Color(0xFF10131B),
         elevation: 0,
         centerTitle: true,
         title: const Text(
           'المدن',
           style: TextStyle(
             color: Color(0xFFE3C477),
+            fontSize: 25,
             fontWeight: FontWeight.w700,
           ),
         ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
       body: FutureBuilder<List<City>>(
-        future: citiesFuture,
+        future: _future,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: Color(0xFFE3C477),
+              ),
             );
           }
 
           if (snapshot.hasError) {
-            return Center(
+            return const Center(
               child: Text(
-                'تعذر الوصول إلى المدن.',
-                textDirection: TextDirection.rtl,
-                style: TextStyle(
-                  color: Colors.white.withOpacity(.65),
-                  fontSize: 15,
-                ),
+                'تعذر تحميل المدن',
+                style: TextStyle(color: Colors.white54, fontSize: 18),
               ),
             );
           }
@@ -62,94 +65,94 @@ class _CitiesScreenState extends State<CitiesScreen> {
           if (cities.isEmpty) {
             return const Center(
               child: Text(
-                'لا توجد مدن مكتشفة بعد.',
-                textDirection: TextDirection.rtl,
-                style: TextStyle(
-                  color: Colors.white54,
-                  fontSize: 15,
-                ),
+                'لا توجد مدن في العالم بعد.',
+                style: TextStyle(color: Colors.white54, fontSize: 18),
               ),
             );
           }
 
-          return RefreshIndicator(
-            onRefresh: () async {
-              setState(() {
-                citiesFuture = CityService().getCities();
-              });
-              await citiesFuture;
-            },
-            child: ListView.separated(
-              padding: const EdgeInsets.all(18),
-              itemCount: cities.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 14),
-              itemBuilder: (context, index) {
-                final city = cities[index];
+          return ListView.separated(
+            padding: const EdgeInsets.all(18),
+            itemCount: cities.length,
+            separatorBuilder: (_, __) => const SizedBox(height: 14),
+            itemBuilder: (context, index) {
+              final city = cities[index];
 
-                return Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(28),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => CityDetailScreen(city: city),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      height: 220,
-                      padding: const EdgeInsets.all(22),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(28),
-                        gradient: const LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Color(0xFF182337),
-                            Color(0xFF0C131F),
-                          ],
-                        ),
-                        border: Border.all(
-                          color: const Color(0xFFE3C477).withOpacity(.18),
-                        ),
+              return Material(
+                color: const Color(0xFF11141C),
+                borderRadius: BorderRadius.circular(28),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(28),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => CityDetailScreen(city: city),
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                    );
+                  },
+                  child: Container(
+                    height: 150,
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(28),
+                      border: Border.all(
+                        color: const Color(0xFFE3C477).withOpacity(.12),
+                      ),
+                    ),
+                    child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: Row(
                         children: [
-                          Icon(
-                            Icons.location_city_rounded,
-                            color: const Color(0xFFE3C477).withOpacity(.8),
-                            size: 32,
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            city.name,
-                            textDirection: TextDirection.rtl,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 26,
-                              fontWeight: FontWeight.w700,
+                          Container(
+                            width: 76,
+                            height: 76,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFE3C477),
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            child: const Icon(
+                              Icons.location_city_rounded,
+                              size: 38,
+                              color: Color(0xFF11131A),
                             ),
                           ),
-                          const SizedBox(height: 6),
-                          const Text(
-                            'ادخل واكتشف ما تخفيه',
-                            textDirection: TextDirection.rtl,
-                            style: TextStyle(
-                              color: Colors.white38,
-                              fontSize: 13,
+                          const SizedBox(width: 18),
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  city.name,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 7),
+                                const Text(
+                                  'مكان في الدجى… وله حكايات لم تُفتح بعد.',
+                                  style: TextStyle(
+                                    color: Colors.white54,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ],
                             ),
+                          ),
+                          const Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: Color(0xFFE3C477),
                           ),
                         ],
                       ),
                     ),
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            },
           );
         },
       ),

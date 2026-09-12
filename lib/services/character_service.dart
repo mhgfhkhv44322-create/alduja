@@ -1,27 +1,27 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
+import '../models/character.dart';
 
 class CharacterService {
   final SupabaseClient _supabase = Supabase.instance.client;
 
-  Future<List<Map<String, dynamic>>> getCharacters() async {
+  Future<List<Character>> getCharacters() async {
     final data = await _supabase
         .from('characters')
-        .select()
-        .order('created_at', ascending: true);
+        .select('id, name, title, description, image_url, created_at')
+        .order('name');
 
-    return List<Map<String, dynamic>>.from(data);
+    return (data as List)
+        .map((row) => Character.fromMap(Map<String, dynamic>.from(row)))
+        .toList();
   }
 
-  Future<List<Map<String, dynamic>>> getUnlockedCharacters() async {
-    final user = _supabase.auth.currentUser;
-    if (user == null) return [];
-
+  Future<Character> getCharacter(String id) async {
     final data = await _supabase
-        .from('character_unlocks')
-        .select('character_id, unlocked_at, characters(*)')
-        .eq('user_id', user.id)
-        .order('unlocked_at', ascending: true);
+        .from('characters')
+        .select('id, name, title, description, image_url, created_at')
+        .eq('id', id)
+        .single();
 
-    return List<Map<String, dynamic>>.from(data);
+    return Character.fromMap(Map<String, dynamic>.from(data));
   }
 }

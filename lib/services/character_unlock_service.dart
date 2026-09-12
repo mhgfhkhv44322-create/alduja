@@ -1,32 +1,25 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../models/character_unlock.dart';
 
 class CharacterUnlockService {
   final SupabaseClient _supabase = Supabase.instance.client;
 
-  Future<List<CharacterUnlock>> getMyUnlocks() async {
+  Future<List<String>> getUnlockedCharacterIds() async {
     final user = _supabase.auth.currentUser;
     if (user == null) return [];
 
     final data = await _supabase
         .from('character_unlocks')
-        .select()
-        .eq('user_id', user.id)
-        .order('unlocked_at', ascending: true);
+        .select('character_id')
+        .eq('user_id', user.id);
 
-    return data
-        .map<CharacterUnlock>(
-          (item) => CharacterUnlock.fromMap(item),
-        )
+    return (data as List)
+        .map((row) => row['character_id'].toString())
         .toList();
   }
 
   Future<void> unlockCharacter(String characterId) async {
     final user = _supabase.auth.currentUser;
-
-    if (user == null) {
-      throw Exception('يجب تسجيل الدخول أولاً');
-    }
+    if (user == null) return;
 
     await _supabase.from('character_unlocks').upsert({
       'user_id': user.id,
