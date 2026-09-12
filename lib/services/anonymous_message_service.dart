@@ -27,6 +27,26 @@ class AnonymousMessageService {
     });
   }
 
+  Future<void> sendToUsername({
+    required String username,
+    required String text,
+  }) async {
+    final result = await _supabase
+        .from('profiles')
+        .select('id')
+        .eq('username', username.trim())
+        .maybeSingle();
+
+    if (result == null) {
+      throw Exception('المستخدم غير موجود');
+    }
+
+    await send(
+      receiverId: result['id'].toString(),
+      text: text,
+    );
+  }
+
   Future<List<AnonymousMessage>> getReceived() async {
     final user = _supabase.auth.currentUser;
     if (user == null) return [];
@@ -41,6 +61,21 @@ class AnonymousMessageService {
         .map<AnonymousMessage>(
           (item) => AnonymousMessage.fromMap(item),
         )
+        .toList();
+  }
+
+  Future<List<AnonymousMessage>> getSent() async {
+    final user = _supabase.auth.currentUser;
+    if (user == null) return [];
+
+    final data = await _supabase
+        .from('messages')
+        .select('id, receiver_id, message_text, is_read, created_at')
+        .eq('sender_id', user.id)
+        .order('created_at', ascending: false);
+
+    return (data as List)
+        .map((row) => AnonymousMessage.fromMap(Map<String, dynamic>.from(row)))
         .toList();
   }
 
