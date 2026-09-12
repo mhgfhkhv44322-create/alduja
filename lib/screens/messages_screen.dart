@@ -34,7 +34,7 @@ class _MessagesScreenState extends State<MessagesScreen>
     try {
       final received = await _service.getReceived();
       final sent = await _service.getSent();
-    final echoes = await EchoService().getCharacterEchoes();
+    final echoes = await EchoService().getCharacterEchoes('');
 
       if (!mounted) return;
       setState(() {
