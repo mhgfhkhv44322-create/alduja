@@ -23,7 +23,7 @@ class _SadenChatScreenState extends State<SadenChatScreen> {
 
   final List<_ChatItem> _messages = [];
   bool _sending = false;
-  bool _loadingHistory = true;
+  final bool _loadingHistory = true;
 
   @override
   void dispose() {
@@ -192,7 +192,7 @@ class _SadenChatScreenState extends State<SadenChatScreen> {
                             border: Border.all(
                               color: item.isUser
                                   ? Colors.white10
-                                  : const Color(0xFFE8D39A).withOpacity(.18),
+                                  : const Color(0xFFE8D39A).withValues(alpha: .18),
                             ),
                           ),
                           child: Text(

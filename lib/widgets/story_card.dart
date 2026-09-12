@@ -31,7 +31,7 @@ class StoryCard extends StatelessWidget {
                     width: 78,
                     height: 78,
                     fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) =>
+                    errorBuilder: (_, _, _) =>
                         const _StoryPlaceholder(),
                   ),
                 )

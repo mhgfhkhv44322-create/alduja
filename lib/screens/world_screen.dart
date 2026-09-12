@@ -37,7 +37,7 @@ class WorldScreen extends StatelessWidget {
               height: 250,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: gold.withOpacity(.06),
+                color: gold.withValues(alpha: .06),
               ),
             ),
           ),
@@ -78,7 +78,7 @@ class WorldScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                     color: panel,
                     border: Border.all(
-                      color: gold.withOpacity(.14),
+                      color: gold.withValues(alpha: .14),
                     ),
                   ),
                   child: Stack(
@@ -89,7 +89,7 @@ class WorldScreen extends StatelessWidget {
                         child: Icon(
                           Icons.nightlight_round,
                           size: 52,
-                          color: gold.withOpacity(.8),
+                          color: gold.withValues(alpha: .8),
                         ),
                       ),
                       Positioned(
@@ -103,7 +103,7 @@ class WorldScreen extends StatelessWidget {
                               width: 55,
                               height: 82,
                               decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(.3),
+                                color: Colors.black.withValues(alpha: .3),
                                 borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(12),
                                 ),
@@ -114,7 +114,7 @@ class WorldScreen extends StatelessWidget {
                               width: 75,
                               height: 115,
                               decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(.35),
+                                color: Colors.black.withValues(alpha: .35),
                                 borderRadius: const BorderRadius.vertical(
                                   top: Radius.circular(30),
                                 ),
@@ -125,7 +125,7 @@ class WorldScreen extends StatelessWidget {
                               child: Container(
                                 height: 55,
                                 decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(.25),
+                                  color: Colors.black.withValues(alpha: .25),
                                   borderRadius: BorderRadius.circular(40),
                                 ),
                               ),
@@ -189,7 +189,7 @@ class WorldScreen extends StatelessWidget {
                         color: panel,
                         borderRadius: BorderRadius.circular(23),
                         border: Border.all(
-                          color: gold.withOpacity(.13),
+                          color: gold.withValues(alpha: .13),
                         ),
                       ),
                       child: Row(
@@ -229,7 +229,7 @@ class WorldScreen extends StatelessWidget {
                             height: 48,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: gold.withOpacity(.08),
+                              color: gold.withValues(alpha: .08),
                             ),
                             child: const Icon(
                               Icons.location_city_outlined,

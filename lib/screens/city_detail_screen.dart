@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/blacksmith_place_card.dart';
 import '../models/city.dart';
 import '../models/story.dart';
 import '../models/village.dart';
@@ -62,6 +63,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const BlacksmithPlaceCard(),
             Container(
               height: 250,
               decoration: BoxDecoration(
@@ -75,7 +77,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                   ],
                 ),
                 border: Border.all(
-                  color: const Color(0xFFE3C477).withOpacity(.16),
+                  color: const Color(0xFFE3C477).withValues(alpha: .16),
                 ),
               ),
               child: Stack(
@@ -86,7 +88,7 @@ class _CityDetailScreenState extends State<CityDetailScreen> {
                     child: Icon(
                       Icons.nightlight_round,
                       size: 42,
-                      color: const Color(0xFFE3C477).withOpacity(.7),
+                      color: const Color(0xFFE3C477).withValues(alpha: .7),
                     ),
                   ),
                   Positioned(
@@ -343,7 +345,7 @@ class _PlaceCard extends StatelessWidget {
             color: const Color(0xFF0D1420),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: const Color(0xFFE3C477).withOpacity(.1),
+              color: const Color(0xFFE3C477).withValues(alpha: .1),
             ),
           ),
           child: Row(

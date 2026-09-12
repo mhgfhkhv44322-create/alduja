@@ -28,9 +28,9 @@ class ProfileService {
     if (user == null) return;
 
     await _supabase.from('profiles').update({
-      if (displayName != null) 'display_name': displayName,
-      if (bio != null) 'bio': bio,
-      if (avatarUrl != null) 'avatar_url': avatarUrl,
+      'display_name': ?displayName,
+      'bio': ?bio,
+      'avatar_url': ?avatarUrl,
       'updated_at': DateTime.now().toIso8601String(),
     }).eq('id', user.id);
   }

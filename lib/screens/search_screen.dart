@@ -127,14 +127,12 @@ class _SearchScreenState extends State<SearchScreen> {
                             itemCount: results.length,
                             itemBuilder: (context, index) {
                               return SearchResultTile(
-                                user: results[index],
                                 onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (_) => UserProfileScreen(
-                                      user: results[index],
-                                    ),
+                                      ),
                                   ),
                                 );
                               },

@@ -29,10 +29,10 @@ class AccountService {
     if (user == null) return;
 
     await _supabase.from('profiles').update({
-      if (displayName != null) 'display_name': displayName,
-      if (bio != null) 'bio': bio,
-      if (avatarUrl != null) 'avatar_url': avatarUrl,
-      if (title != null) 'title': title,
+      'display_name': ?displayName,
+      'bio': ?bio,
+      'avatar_url': ?avatarUrl,
+      'title': ?title,
       'updated_at': DateTime.now().toIso8601String(),
     }).eq('id', user.id);
   }

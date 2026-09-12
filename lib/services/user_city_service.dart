@@ -32,7 +32,7 @@ class UserCityService {
     await _supabase.from('user_cities').upsert({
       'user_id': user.id,
       'city_id': cityId,
-      if (storyId != null) 'discovered_from_story_id': storyId,
+      'discovered_from_story_id': ?storyId,
     });
   }
 }

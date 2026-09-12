@@ -125,11 +125,11 @@ class _MajalisScreenState extends State<MajalisScreen> {
         color: const Color(0xFF0E1420),
         borderRadius: BorderRadius.circular(22),
         border: Border.all(
-          color: const Color(0xFFE8D39A).withOpacity(.14),
+          color: const Color(0xFFE8D39A).withValues(alpha: .14),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(.25),
+            color: Colors.black.withValues(alpha: .25),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),

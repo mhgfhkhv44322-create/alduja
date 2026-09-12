@@ -1,172 +1,174 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'settings_screen.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
-  @override
-  State<ProfileScreen> createState() =>
-      _ProfileScreenState();
-}
-
-class _ProfileScreenState
-    extends State<ProfileScreen> {
-  final supabase = Supabase.instance.client;
-
-  Map<String, dynamic>? profile;
-  bool loading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    loadProfile();
-  }
-
-  Future<void> loadProfile() async {
-    final user = supabase.auth.currentUser;
-
-    if (user == null) {
-      if (mounted) {
-        setState(() => loading = false);
-      }
-      return;
-    }
-
-    try {
-      final data = await supabase
-          .from('profiles')
-          .select()
-          .eq('id', user.id)
-          .maybeSingle();
-
-      if (!mounted) return;
-
-      setState(() {
-        profile = data;
-        loading = false;
-      });
-    } catch (_) {
-      if (!mounted) return;
-      setState(() => loading = false);
-    }
-  }
+  static const bg = Color(0xFF05080B);
+  static const panel = Color(0xFF101316);
+  static const gold = Color(0xFFE3C18B);
+  static const muted = Color(0xFF9B958C);
 
   @override
   Widget build(BuildContext context) {
+    final user = Supabase.instance.client.auth.currentUser;
     final username =
-        profile?['username']?.toString() ??
-            'مستخدم الدجى';
+        user?.userMetadata?['username']?.toString() ??
+        user?.email?.split('@').first ??
+        'مستخدم مجهول';
 
-    final displayName =
-        profile?['display_name']?.toString() ??
-            username;
-
-    final bio =
-        profile?['bio']?.toString() ??
-            'لا توجد نبذة بعد.';
-
-    final title =
-        profile?['title']?.toString();
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('أنا'),
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.settings_outlined,
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) =>
-                      const SettingsScreen(),
-                ),
-              );
-            },
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        backgroundColor: bg,
+        appBar: AppBar(
+          backgroundColor: bg,
+          elevation: 0,
+          centerTitle: true,
+          title: const Text(
+            'أنا',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
-        ],
-      ),
-      body: loading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : RefreshIndicator(
-              onRefresh: loadProfile,
-              child: ListView(
-                padding: const EdgeInsets.all(20),
-                children: [
-                  const CircleAvatar(
-                    radius: 45,
-                    child: Icon(
-                      Icons.person_outline,
-                      size: 45,
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.settings_outlined),
+              color: Colors.white70,
+            ),
+          ],
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(18, 12, 18, 35),
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(22),
+                decoration: BoxDecoration(
+                  color: panel,
+                  borderRadius: BorderRadius.circular(26),
+                  border: Border.all(color: gold.withValues(alpha: .2)),
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      width: 92,
+                      height: 92,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: gold, width: 2),
+                        color: const Color(0xFF1A1D20),
+                      ),
+                      child: const Icon(
+                        Icons.person_outline_rounded,
+                        color: gold,
+                        size: 50,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  Center(
-                    child: Text(
-                      displayName,
+                    const SizedBox(height: 14),
+                    Text(
+                      username,
                       style: const TextStyle(
+                        color: Colors.white,
                         fontSize: 23,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 5),
-                  Center(
-                    child: Text('@$username'),
-                  ),
-                  if (title != null &&
-                      title.isNotEmpty) ...[
-                    const SizedBox(height: 10),
-                    Center(
-                      child: Chip(
-                        label: Text(title),
-                      ),
+                    const SizedBox(height: 6),
+                    const Text(
+                      'مستخدم مجهول',
+                      style: TextStyle(color: muted),
+                    ),
+                    const SizedBox(height: 18),
+                    Row(
+                      children: [
+                        _stat('0', 'حكايات'),
+                        _stat('0', 'اكتشافات'),
+                        _stat('1', 'المستوى'),
+                      ],
                     ),
                   ],
-                  const SizedBox(height: 22),
-                  Card(
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.all(16),
-                      child: Text(
-                        bio,
-                        style: const TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  const Card(
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.emoji_events_outlined,
-                      ),
-                      title: Text('الإنجازات'),
-                      subtitle: Text(
-                        'إنجازاتك وألقابك',
-                      ),
-                    ),
-                  ),
-                  const Card(
-                    child: ListTile(
-                      leading: Icon(Icons.link),
-                      title: Text(
-                        'رابط رسائلي المجهولة',
-                      ),
-                      subtitle: Text(
-                        'استقبال رسائل بدون كشف هوية المرسل',
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
+
+              const SizedBox(height: 18),
+
+              _menu(Icons.auto_awesome_outlined, 'إنجازاتي', 'اكتشافات ورموز الدجى'),
+              _menu(Icons.bookmark_outline, 'المحفوظات', 'الحكايات التي احتفظت بها'),
+              _menu(Icons.shield_outlined, 'الخصوصية', 'تحكم بهويتك ورسائلك'),
+              _menu(Icons.notifications_none_rounded, 'الإشعارات', 'إدارة التنبيهات'),
+
+              const SizedBox(height: 12),
+
+              OutlinedButton.icon(
+                onPressed: () async {
+                  await Supabase.instance.client.auth.signOut();
+                },
+                icon: const Icon(Icons.logout_rounded),
+                label: const Text('تسجيل الخروج'),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.redAccent.shade100,
+                  side: BorderSide(color: Colors.redAccent.withValues(alpha: .3)),
+                  minimumSize: const Size(double.infinity, 52),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(17),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _stat(String number, String label) {
+    return Expanded(
+      child: Column(
+        children: [
+          Text(
+            number,
+            style: const TextStyle(
+              color: gold,
+              fontSize: 23,
+              fontWeight: FontWeight.bold,
             ),
+          ),
+          const SizedBox(height: 4),
+          Text(label, style: const TextStyle(color: muted, fontSize: 12)),
+        ],
+      ),
+    );
+  }
+
+  Widget _menu(IconData icon, String title, String subtitle) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        color: panel,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: Colors.white.withValues(alpha: .07)),
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            backgroundColor: const Color(0xFF27231D),
+            child: Icon(icon, color: gold),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 4),
+                Text(subtitle, style: const TextStyle(color: muted, fontSize: 12)),
+              ],
+            ),
+          ),
+          const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white38, size: 16),
+        ],
+      ),
     );
   }
 }

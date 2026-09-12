@@ -6,7 +6,6 @@ import '../widgets/reply_input.dart';
 import '../widgets/save_message_button.dart';
 import '../widgets/block_user_button.dart';
 import '../widgets/report_button.dart';
-import '../widgets/blocked_user_notice.dart';
 
 class ChatScreen extends StatefulWidget {
   final String otherUserId;

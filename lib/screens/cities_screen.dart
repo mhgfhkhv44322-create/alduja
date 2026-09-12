@@ -74,7 +74,7 @@ class _CitiesScreenState extends State<CitiesScreen> {
           return ListView.separated(
             padding: const EdgeInsets.all(18),
             itemCount: cities.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 14),
+            separatorBuilder: (_, _) => const SizedBox(height: 14),
             itemBuilder: (context, index) {
               final city = cities[index];
 
@@ -97,7 +97,7 @@ class _CitiesScreenState extends State<CitiesScreen> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(28),
                       border: Border.all(
-                        color: const Color(0xFFE3C477).withOpacity(.12),
+                        color: const Color(0xFFE3C477).withValues(alpha: .12),
                       ),
                     ),
                     child: Directionality(

@@ -63,7 +63,7 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
             child: ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: reports.length,
-              separatorBuilder: (_, __) =>
+              separatorBuilder: (_, _) =>
                   const SizedBox(height: 10),
               itemBuilder: (context, index) {
                 final report = reports[index];

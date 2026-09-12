@@ -92,7 +92,7 @@ class _LoreScreenState extends State<LoreScreen> {
                   'تعذر تحميل أصداء العالم حالياً.',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Colors.white.withOpacity(.75),
+                    color: Colors.white.withValues(alpha: .75),
                     fontSize: 16,
                   ),
                 ),
@@ -107,7 +107,7 @@ class _LoreScreenState extends State<LoreScreen> {
               child: Text(
                 'لا توجد أصداء مكتشفة بعد...',
                 style: TextStyle(
-                  color: Colors.white.withOpacity(.65),
+                  color: Colors.white.withValues(alpha: .65),
                   fontSize: 16,
                 ),
               ),
@@ -136,11 +136,11 @@ class _LoreScreenState extends State<LoreScreen> {
                     color: const Color(0xFF101724),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: const Color(0xFFE5C77A).withOpacity(.16),
+                      color: const Color(0xFFE5C77A).withValues(alpha: .16),
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(.18),
+                        color: Colors.black.withValues(alpha: .18),
                         blurRadius: 18,
                         offset: const Offset(0, 8),
                       ),
@@ -169,7 +169,7 @@ class _LoreScreenState extends State<LoreScreen> {
                           Text(
                             'أثر ${item.difficulty}',
                             style: TextStyle(
-                              color: Colors.white.withOpacity(.38),
+                              color: Colors.white.withValues(alpha: .38),
                               fontSize: 11,
                             ),
                           ),
@@ -181,7 +181,7 @@ class _LoreScreenState extends State<LoreScreen> {
                         textAlign: TextAlign.right,
                         textDirection: TextDirection.rtl,
                         style: TextStyle(
-                          color: Colors.white.withOpacity(.88),
+                          color: Colors.white.withValues(alpha: .88),
                           height: 1.75,
                           fontSize: 15,
                         ),
@@ -193,7 +193,7 @@ class _LoreScreenState extends State<LoreScreen> {
                           textAlign: TextAlign.right,
                           textDirection: TextDirection.rtl,
                           style: TextStyle(
-                            color: Colors.white.withOpacity(.35),
+                            color: Colors.white.withValues(alpha: .35),
                             fontSize: 11,
                           ),
                         ),

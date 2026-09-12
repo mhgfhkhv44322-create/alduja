@@ -86,7 +86,7 @@ class _CharactersScreenState extends State<CharactersScreen> {
           return ListView.separated(
             padding: const EdgeInsets.fromLTRB(18, 24, 18, 40),
             itemCount: characters.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 16),
+            separatorBuilder: (_, _) => const SizedBox(height: 16),
             itemBuilder: (context, index) {
               final character = characters[index];
               return _CharacterCard(character: character);
@@ -127,7 +127,7 @@ class _CharacterCard extends StatelessWidget {
               ],
             ),
             border: Border.all(
-              color: const Color(0xFFE3C477).withOpacity(.18),
+              color: const Color(0xFFE3C477).withValues(alpha: .18),
             ),
           ),
           child: Row(
@@ -152,7 +152,7 @@ class _CharacterCard extends StatelessWidget {
                       ? Image.network(
                           imageUrl,
                           fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) =>
+                          errorBuilder: (_, _, _) =>
                               const _CharacterSilhouette(),
                         )
                       : const _CharacterSilhouette(),
@@ -280,6 +280,58 @@ class _CharacterSilhouette extends StatelessWidget {
         Icons.person_outline,
         color: Color(0xFFE3C477),
         size: 58,
+      ),
+    );
+  }
+}
+
+class _CharacterPortrait extends StatelessWidget {
+  final String? imageUrl;
+  final String name;
+
+  const _CharacterPortrait({
+    required this.imageUrl,
+    required this.name,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 64,
+      height: 64,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: const Color(0xFFC9A35B).withValues(alpha: .65),
+          width: 1.2,
+        ),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x44C9A35B),
+            blurRadius: 14,
+          ),
+        ],
+      ),
+      child: ClipOval(
+        child: imageUrl != null && imageUrl!.isNotEmpty
+            ? Image.network(
+                imageUrl!,
+                fit: BoxFit.cover,
+                errorBuilder: (_, _, _) => _silhouette(),
+              )
+            : _silhouette(),
+      ),
+    );
+  }
+
+  Widget _silhouette() {
+    return Container(
+      color: const Color(0xFF151923),
+      alignment: Alignment.center,
+      child: const Icon(
+        Icons.person_outline_rounded,
+        color: Color(0xFFC9A35B),
+        size: 34,
       ),
     );
   }

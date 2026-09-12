@@ -61,7 +61,7 @@ class _BlockedUsersScreenState extends State<BlockedUsersScreen> {
           return ListView.separated(
             padding: const EdgeInsets.all(16),
             itemCount: list.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 8),
+            separatorBuilder: (_, _) => const SizedBox(height: 8),
             itemBuilder: (context, index) {
               final item = list[index];
               final id = item['id'].toString();

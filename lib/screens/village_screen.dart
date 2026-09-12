@@ -62,7 +62,7 @@ class _VillageScreenState extends State<VillageScreen> {
                   ],
                 ),
                 border: Border.all(
-                  color: const Color(0xFFE3C477).withOpacity(.15),
+                  color: const Color(0xFFE3C477).withValues(alpha: .15),
                 ),
               ),
               child: Stack(
@@ -73,7 +73,7 @@ class _VillageScreenState extends State<VillageScreen> {
                     child: Icon(
                       Icons.nightlight_round,
                       size: 45,
-                      color: const Color(0xFFE3C477).withOpacity(.72),
+                      color: const Color(0xFFE3C477).withValues(alpha: .72),
                     ),
                   ),
                   Positioned(
@@ -334,7 +334,7 @@ class _SectionCard extends StatelessWidget {
             color: const Color(0xFF0D1420),
             borderRadius: BorderRadius.circular(22),
             border: Border.all(
-              color: const Color(0xFFE3C477).withOpacity(.1),
+              color: const Color(0xFFE3C477).withValues(alpha: .1),
             ),
           ),
           child: Row(
@@ -445,7 +445,7 @@ class _EmptyDialogue extends StatelessWidget {
         color: const Color(0xFF0A1019),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: Colors.white.withOpacity(.06),
+          color: Colors.white.withValues(alpha: .06),
         ),
       ),
       child: const Text(
